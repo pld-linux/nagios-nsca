@@ -1,3 +1,7 @@
+#
+# Conditional build:
+%bcond_without	mcrypt	# build without mcrypt support
+#
 Summary:	NSCA daemon for Nagios
 Summary(pl):	Demon NSCA dla Nagiosa
 Name:		nagios-nsca
@@ -12,7 +16,7 @@ Source2:	%{name}.submit
 URL:		http://www.nagios.org/
 BuildRequires:	autoconf
 BuildRequires:	libltdl-devel
-%{!?_without_mcrypt:BuildRequires:	libmcrypt-devel}
+%{?with_mcrypt:BuildRequires:	libmcrypt-devel}
 PreReq:		nagios
 PreReq:		rc-scripts
 Requires(post,preun):	/sbin/chkconfig
