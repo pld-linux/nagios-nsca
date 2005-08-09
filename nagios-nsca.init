@@ -34,14 +34,13 @@ RETVAL=0
 case "$1" in
   start)
 	# Check if the service is already running?
-	if [ ! -f /var/lock/subsys/nagios-nsca ]; then
-		msg_starting "nagios NSCA daemon"
-		su - nagios -s /bin/sh -c '/usr/bin/setsid /usr/lib/nagios/nsca -d /etc/nagios/nsca.cfg </dev/null >/dev/null 2>&1'
-		[ $? -ne 0 ] && RETVAL=1
-		[ $RETVAL -eq 0 ] && touch /var/lock/subsys/nagios-nsca
-		[ $RETVAL -eq 0 ] && ok || fail
+	if [ -f /var/lock/subsys/nagios-nsca ]; then
+		msg_already running "nagios NSCA daemon"
 	else
-		msg_already_running "nagios NSCA daemon"
+		msg_starting "nagios NSCA daemon"
+		dameon nsca -c /etc/nagios/nsca.cfg
+		RETVAL=$?
+		[ $RETVAL -eq 0 ] && touch /var/lock/subsys/nagios-nsca
 	fi
 	;;
   stop)
