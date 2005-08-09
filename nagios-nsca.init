@@ -38,7 +38,7 @@ case "$1" in
 		msg_already running "nagios NSCA daemon"
 	else
 		msg_starting "nagios NSCA daemon"
-		dameon nsca -c /etc/nagios/nsca.cfg
+		daemon nsca -c /etc/nagios/nsca.cfg
 		RETVAL=$?
 		[ $RETVAL -eq 0 ] && touch /var/lock/subsys/nagios-nsca
 	fi
