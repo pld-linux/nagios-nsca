@@ -6,13 +6,14 @@ Summary:	NSCA daemon for Nagios
 Summary(pl):	Demon NSCA dla Nagiosa
 Name:		nagios-nsca
 Version:	2.4
-Release:	1
+Release:	2
 License:	GPL
 Group:		Networking
 Source0:	ftp://distfiles.pld-linux.org/src/nsca-%{version}.tar.gz
 # Source0-md5:	ab58553a87940f574ec54189a43a70bc
 Source1:	%{name}.init
 Source2:	%{name}.submit
+Patch0:		%{name}-groups.patch
 URL:		http://www.nagios.org/
 BuildRequires:	autoconf
 BuildRequires:	libltdl-devel
@@ -46,6 +47,7 @@ do centralnej maszyny, na której dzia³a Nagios.
 
 %prep
 %setup -q -n nsca-%{version}
+%patch0 -p1
 
 %build
 %{__autoconf}
@@ -56,9 +58,9 @@ do centralnej maszyny, na której dzia³a Nagios.
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_sysconfdir}/nagios,/etc/rc.d/init.d} \
-	$RPM_BUILD_ROOT{%{_libdir}/nagios,%{_sbindir}}
+	$RPM_BUILD_ROOT%{_sbindir}
 
-install src/nsca $RPM_BUILD_ROOT%{_libdir}/nagios
+install src/nsca $RPM_BUILD_ROOT%{_sbindir}
 sed -e 's@^command_file=.*@command_file=/var/lib/nagios/rw/nagios.cmd@;s@^alternate_dump_file=.*@alternate_dump_file=/var/lib/nagios/rw/nsca.dump@' \
 	nsca.cfg > $RPM_BUILD_ROOT%{_sysconfdir}/nagios/nsca.cfg
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/nagios-nsca
@@ -92,7 +94,7 @@ fi
 %defattr(644,root,root,755)
 %attr(640,root,nagios) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/nagios/nsca.cfg
 %doc Changelog README SECURITY
-%attr(755,root,root) %{_libdir}/nagios/nsca
+%attr(755,root,root) %{_sbindir}/nsca
 %attr(754,root,root) /etc/rc.d/init.d/nagios-nsca
 
 %files client
