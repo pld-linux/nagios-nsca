@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Arguments:
+# Arguments for service:
 #  $1 = host_name (Short name of host that the service is
 #       associated with)
 #  $2 = svc_description (Description of the service)
@@ -11,21 +11,54 @@
 #       as the plugin output for the service checks)
 #
 
-# Convert the state string to the corresponding return code
-return_code=3
+# Arguments for host:
+#  $1 = host_name (Short name of host we check for status)
+#  $2 = state_string (A string representing the status of
+#       the given service - "OK", "DOWN", "UNREACHABLE"
+#       or "UNKNOWN")
+#  $3 = plugin_output (A text string that should be used
+#       as the plugin output for the host checks)
+#
 
-case "$3" in
+if [ "$#" = 4 ]; then
+	TYPE=SERVICE
+	CODE=$3
+elif [ "$#" = 3 ]; then
+	TYPE=HOST
+	CODE=$2
+else
+	echo "You must specify exactly 3 or 4 arguments"
+	exit 1
+fi
+
+CENTRAL=`cat /etc/send_nsca-central 2>/dev/null | grep -v '^#'`
+
+if [ -z $CENTRAL ]; then
+	echo "You must specify nagios NSCA host in /etc/send_nsca-central"
+	exit 1
+fi
+
+# Convert the state string to the corresponding return code
+RETURN_CODE=3
+
+case "$CODE" in
 	OK)
-		return_code=0
+		RETURN_CODE=0
 		;;
 	WARNING)
-		return_code=1
+		RETURN_CODE=1
+		;;
+	DOWN)
+		RETURN_CODE=1
 		;;
 	CRITICAL)
-		return_code=2
+		RETURN_CODE=2
+		;;
+	UNREACHABLE)
+		RETURN_CODE=2
 		;;
 	UNKNOWN)
-		return_code=3
+		RETURN_CODE=3
 		;;
 esac
 
@@ -33,6 +66,11 @@ esac
 # in turn transmits the data to the nsca daemon on the central
 # monitoring server
 
-central=`cat /etc/send_nsca-central | grep -v '^#'`
-
-echo -e "$1\t$2\t$return_code\t$4\n" | /usr/sbin/send_nsca $central -c /etc/send_nsca.cfg
+if [ "$TYPE" = "SERVICE" ]; then
+	echo -e "$1\t$2\t$RETURN_CODE\t$4\n" | /usr/sbin/send_nsca $CENTRAL -c /etc/send_nsca.cfg
+elif [ "$TYPE" = "HOST" ]; then
+	echo -e "$1\t$RETURN_CODE\t$3\n" | /usr/sbin/send_nsca $CENTRAL -c /etc/send_nsca.cfg
+else
+	echo "This cannot happen"
+	exit 1
+fi
