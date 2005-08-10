@@ -60,6 +60,9 @@ case "$CODE" in
 	UNKNOWN)
 		RETURN_CODE=3
 		;;
+	[0-3])
+		RETURN_CODE="$CODE"
+		;;
 esac
 
 # pipe the service check info into the send_nsca program, which
