@@ -18,15 +18,14 @@ URL:		http://www.nagios.org/
 BuildRequires:	autoconf
 BuildRequires:	libltdl-devel
 %{?with_mcrypt:BuildRequires:	libmcrypt-devel}
-PreReq:		nagios
-PreReq:		rc-scripts
 Requires(post,preun):	/sbin/chkconfig
+Requires:	nagios
+Requires:	rc-scripts
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
-NSCA daemon for Nagios - listens for service check results from
-remote machines (sent using send_ncsa from nagios-ncsa-client
-package).
+NSCA daemon for Nagios - listens for service check results from remote
+machines (sent using send_ncsa from nagios-ncsa-client package).
 
 %description -l pl
 Demon NSCA dla Nagiosa - zbiera wyniki testów ze zdalnych maszyn
@@ -92,13 +91,13 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%attr(640,root,nagios) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/nagios/nsca.cfg
+%attr(640,root,nagios) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/nagios/nsca.cfg
 %doc Changelog README SECURITY
 %attr(755,root,root) %{_sbindir}/nsca
 %attr(754,root,root) /etc/rc.d/init.d/nagios-nsca
 
 %files client
 %defattr(644,root,root,755)
-%attr(640,root,nagios) %config(noreplace) %verify(not size mtime md5 group) %{_sysconfdir}/send_nsca.cfg
-%attr(640,root,nagios) %config(noreplace) %verify(not size mtime md5 group) %{_sysconfdir}/send_nsca-central
+%attr(640,root,nagios) %config(noreplace) %verify(not group md5 mtime size) %{_sysconfdir}/send_nsca.cfg
+%attr(640,root,nagios) %config(noreplace) %verify(not group md5 mtime size) %{_sysconfdir}/send_nsca-central
 %attr(755,root,root) %{_sbindir}/send_nsca*
