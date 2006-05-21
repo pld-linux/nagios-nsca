@@ -5,12 +5,12 @@
 Summary:	NSCA daemon for Nagios
 Summary(pl):	Demon NSCA dla Nagiosa
 Name:		nagios-nsca
-Version:	2.4
-Release:	2
+Version:	2.6
+Release:	1
 License:	GPL
 Group:		Networking
-Source0:	ftp://distfiles.pld-linux.org/src/nsca-%{version}.tar.gz
-# Source0-md5:	ab58553a87940f574ec54189a43a70bc
+Source0:	http://dl.sourceforge.net/nagios/nsca-%{version}.tar.gz
+# Source0-md5:	d526a3ac3c29648c729c5fb4fb332488
 Source1:	%{name}.init
 Source2:	%{name}.submit
 Patch0:		%{name}-groups.patch
@@ -18,10 +18,14 @@ URL:		http://www.nagios.org/
 BuildRequires:	autoconf
 BuildRequires:	libltdl-devel
 %{?with_mcrypt:BuildRequires:	libmcrypt-devel}
+BuildRequires:	rpmbuild(macros) >= 1.268
 Requires(post,preun):	/sbin/chkconfig
 Requires:	nagios
 Requires:	rc-scripts
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+%define		_localstatedir	/var/lib/nagios
+%define		_sysconfdir		/etc/nagios
 
 %description
 NSCA daemon for Nagios - listens for service check results from remote
@@ -56,16 +60,15 @@ do centralnej maszyny, na której dzia³a Nagios.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_sysconfdir}/nagios,/etc/rc.d/init.d} \
-	$RPM_BUILD_ROOT%{_sbindir}
+install -d $RPM_BUILD_ROOT{%{_sysconfdir},/etc/rc.d/init.d,%{_sbindir}}
 
-install src/nsca $RPM_BUILD_ROOT%{_sbindir}
-sed -e 's@^command_file=.*@command_file=/var/lib/nagios/rw/nagios.cmd@;s@^alternate_dump_file=.*@alternate_dump_file=/var/lib/nagios/rw/nsca.dump@' \
-	nsca.cfg > $RPM_BUILD_ROOT%{_sysconfdir}/nagios/nsca.cfg
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/nagios-nsca
-
+install src/nsca $RPM_BUILD_ROOT%{_sbindir}
 install src/send_nsca $RPM_BUILD_ROOT%{_sbindir}
-install send_nsca.cfg $RPM_BUILD_ROOT%{_sysconfdir}
+
+install sample-config/nsca.cfg $RPM_BUILD_ROOT%{_sysconfdir}/nsca.cfg
+install sample-config/send_nsca.cfg $RPM_BUILD_ROOT%{_sysconfdir}/send_nsca.cfg
+
 install %{SOURCE2} $RPM_BUILD_ROOT%{_sbindir}/send_nsca-submit
 echo '# put your central nagios machine name or address here' > \
 	$RPM_BUILD_ROOT%{_sysconfdir}/send_nsca-central
@@ -75,24 +78,18 @@ rm -rf $RPM_BUILD_ROOT
 
 %post
 /sbin/chkconfig --add nagios-nsca
-if [ -f /var/lock/subsys/nagios-nsca ]; then
-	/etc/rc.d/init.d/nagios-nsca restart >&2
-else
-	echo "Run \"/etc/rc.d/init.d/nagios-nsca start\" to start NSCA daemon." >&2
-fi
+%service nagios-nsca restart "NSCA daemon"
 
 %preun
 if [ "$1" = "0" ]; then
-	if [ -f /var/lock/subsys/nagios-nsca ]; then
-		/etc/rc.d/init.d/nagios-nsca stop >&2
-	fi
+	%service nagios-nsca stop
 	/sbin/chkconfig --del nagios-nsca
 fi
 
 %files
 %defattr(644,root,root,755)
-%attr(640,root,nagios) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/nagios/nsca.cfg
 %doc Changelog README SECURITY
+%attr(640,root,nagios) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/nsca.cfg
 %attr(755,root,root) %{_sbindir}/nsca
 %attr(754,root,root) /etc/rc.d/init.d/nagios-nsca
 
