@@ -1,0 +1,3 @@
+- moved daemon binary do %sbindir
+- groups patch
+- rel 2
