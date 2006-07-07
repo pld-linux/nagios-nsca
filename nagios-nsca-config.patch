@@ -1,0 +1,11 @@
+--- nsca-2.6/sample-config/nsca.cfg.in~	2006-04-07 00:19:30.000000000 +0300
++++ nsca-2.6/sample-config/nsca.cfg.in	2006-07-07 16:38:26.632832206 +0300
+@@ -61,7 +61,7 @@
+ # NOTE: if you specify this option, the command file will be opened
+ #       relative to this directory.
+ 
+-#nsca_chroot=/var/run/nagios/rw
++#nsca_chroot=@localstatedir@/rw
+ 
+ 
+ 
