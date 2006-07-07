@@ -6,7 +6,7 @@ Summary:	NSCA daemon for Nagios
 Summary(pl):	Demon NSCA dla Nagiosa
 Name:		nagios-nsca
 Version:	2.6
-Release:	1
+Release:	1.1
 License:	GPL
 Group:		Networking
 Source0:	http://dl.sourceforge.net/nagios/nsca-%{version}.tar.gz
@@ -14,6 +14,7 @@ Source0:	http://dl.sourceforge.net/nagios/nsca-%{version}.tar.gz
 Source1:	%{name}.init
 Source2:	%{name}.submit
 Patch0:		%{name}-groups.patch
+Patch1:		%{name}-config.patch
 URL:		http://www.nagios.org/
 BuildRequires:	autoconf
 BuildRequires:	libltdl-devel
@@ -60,6 +61,7 @@ do centralnej maszyny, na której dzia³a Nagios.
 %prep
 %setup -q -n nsca-%{version}
 %patch0 -p1
+%patch1 -p1
 
 %build
 %{__autoconf}
