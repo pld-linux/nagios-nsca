@@ -28,8 +28,17 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_sysconfdir		/etc/nagios
 
 %description
-NSCA daemon for Nagios - listens for service check results from remote
-machines (sent using send_ncsa from nagios-ncsa-client package).
+The NSCA addon is designed to accept passive host and service check
+results from clients that use the send_nsca utility (also included in
+this package) and pass them along to the Nagios process by using the
+external command interface. The NSCA daemon can either be run as a
+standalone daemon or as a service under inetd. If you have libmcrypt
+installed on your systems, you can choose from multiple crypto
+algorithms (DES, 3DES, CAST, xTEA, Twofish, LOKI97, RJINDAEL, SERPENT,
+GOST, SAFER/SAFER+, etc.) for encrypting the traffic between the
+client and the server. Encryption is important in this addon, as it
+prevents unauthorized users from sending bogus check results to
+Nagios.
 
 %description -l pl
 Demon NSCA dla Nagiosa - zbiera wyniki testów ze zdalnych maszyn
