@@ -31,10 +31,10 @@ else
 	exit 1
 fi
 
-CENTRAL=`cat /etc/send_nsca-central 2>/dev/null | grep -v '^#'`
+CENTRAL=`cat /etc/nagios/send_nsca-central 2>/dev/null | grep -v '^#'`
 
 if [ -z $CENTRAL ]; then
-	echo "You must specify nagios NSCA host in /etc/send_nsca-central"
+	echo "You must specify nagios NSCA host in /etc/nagios/send_nsca-central"
 	exit 1
 fi
 
@@ -70,9 +70,9 @@ esac
 # monitoring server
 
 if [ "$TYPE" = "SERVICE" ]; then
-	echo -e "$1\t$2\t$RETURN_CODE\t$4\n" | /usr/sbin/send_nsca $CENTRAL -c /etc/send_nsca.cfg
+	echo -e "$1\t$2\t$RETURN_CODE\t$4\n" | /usr/sbin/send_nsca $CENTRAL -c /etc/nagios/send_nsca.cfg
 elif [ "$TYPE" = "HOST" ]; then
-	echo -e "$1\t$RETURN_CODE\t$3\n" | /usr/sbin/send_nsca $CENTRAL -c /etc/send_nsca.cfg
+	echo -e "$1\t$RETURN_CODE\t$3\n" | /usr/sbin/send_nsca $CENTRAL -c /etc/nagios/send_nsca.cfg
 else
 	echo "This cannot happen"
 	exit 1
