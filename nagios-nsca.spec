@@ -1,5 +1,3 @@
-# TODO
-# - update pl
 #
 # Conditional build:
 %bcond_without	mcrypt	# build without mcrypt support
@@ -32,8 +30,8 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 The NSCA addon is designed to accept passive host and service check
-results from clients that use the send_nsca utility (also included in
-this package) and pass them along to the Nagios process by using the
+results from clients that use the send_nsca utility (included in client
+subpackage) and pass them along to the Nagios process by using the
 external command interface. The NSCA daemon can either be run as a
 standalone daemon or as a service under inetd. If you have libmcrypt
 installed on your systems, you can choose from multiple crypto
@@ -44,8 +42,17 @@ prevents unauthorized users from sending bogus check results to
 Nagios.
 
 %description -l pl
-Demon NSCA dla Nagiosa - zbiera wyniki testów ze zdalnych maszyn
-(wys³ane przez send_ncsa z pakietu nagios-ncsa-client).
+Dodatek NSCA s³u¿y do przyjmowania wyników pasywnych testów hostów i
+us³ug od klientów u¿ywaj±cych narzêdzia send_nsca (zawartego w
+podpakiecie client) i przekazywanai ich do procesu Nagiosa poprzez
+interfejs zewnêtrznych poleceñ. Demon NSCA mo¿e dzia³aæ jako
+samodzielny demon albo us³uga inetd. Korzystaj±c z biblioteki
+libmcrypt mo¿na u¿ywaæ wybraæ jeden z wielu algorytmów
+kryptograficznych (DES, 3DES, CAST, xTEA, Twofish, LOKI97, RJINDAEL,
+SERPENT, GOST, SAFER/SAFER+ itp.) do szyfrowania ruchu miêdzy klientem
+a serwerem. Szyfrowanie jest istotne, jako ¿e zapobiega wysy³aniu do
+Nagiosa fa³szywych wyników testów przez nieautoryzowanych
+u¿ytkowników.
 
 %package client
 Summary:	NSCA client
