@@ -1,3 +1,5 @@
+# TODO
+# - update pl
 #
 # Conditional build:
 %bcond_without	mcrypt	# build without mcrypt support
@@ -6,7 +8,7 @@ Summary:	NSCA daemon for Nagios
 Summary(pl):	Demon NSCA dla Nagiosa
 Name:		nagios-nsca
 Version:	2.6
-Release:	1.1
+Release:	1.2
 License:	GPL
 Group:		Networking
 Source0:	http://dl.sourceforge.net/nagios/nsca-%{version}.tar.gz
