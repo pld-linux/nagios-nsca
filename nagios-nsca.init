@@ -28,10 +28,7 @@ else
 	exit 0
 fi
 
-RETVAL=0
-# See how we were called.
-case "$1" in
-  start)
+start() {
 	# Check if the service is already running?
 	if [ -f /var/lock/subsys/nagios-nsca ]; then
 		msg_already_running "Nagios NSCA daemon"
@@ -41,8 +38,9 @@ case "$1" in
 		RETVAL=$?
 		[ $RETVAL -eq 0 ] && touch /var/lock/subsys/nagios-nsca
 	fi
-	;;
-  stop)
+}
+
+stop() {
 	if [ -f /var/lock/subsys/nagios-nsca ]; then
 		msg_stopping "Nagios NSCA daemon"
 		killproc nsca
@@ -50,11 +48,20 @@ case "$1" in
 	else
 		msg_not_running "Nagios NSCA daemon"
 	fi
+}
+
+RETVAL=0
+# See how we were called.
+case "$1" in
+  start)
+  	start
+	;;
+  stop)
+  	stop
 	;;
   restart|force-reload)
-	$0 stop
-	$0 start
-	exit $?
+	stop
+	start
 	;;
   status)
 	status nsca
