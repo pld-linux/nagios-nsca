@@ -3,7 +3,7 @@
 %bcond_without	mcrypt	# build without mcrypt support
 #
 Summary:	NSCA daemon for Nagios
-Summary(pl):	Demon NSCA dla Nagiosa
+Summary(pl.UTF-8):   Demon NSCA dla Nagiosa
 Name:		nagios-nsca
 Version:	2.7.1
 Release:	1
@@ -41,31 +41,31 @@ client and the server. Encryption is important in this addon, as it
 prevents unauthorized users from sending bogus check results to
 Nagios.
 
-%description -l pl
-Dodatek NSCA s≥uøy do przyjmowania wynikÛw pasywnych testÛw hostÛw i
-us≥ug od klientÛw uøywaj±cych narzÍdzia send_nsca (zawartego w
+%description -l pl.UTF-8
+Dodatek NSCA s≈Çu≈ºy do przyjmowania wynik√≥w pasywnych test√≥w host√≥w i
+us≈Çug od klient√≥w u≈ºywajƒÖcych narzƒôdzia send_nsca (zawartego w
 podpakiecie client) i przekazywanai ich do procesu Nagiosa poprzez
-interfejs zewnÍtrznych poleceÒ. Demon NSCA moøe dzia≥aÊ jako
-samodzielny demon albo us≥uga inetd. Korzystaj±c z biblioteki
-libmcrypt moøna uøywaÊ wybraÊ jeden z wielu algorytmÛw
+interfejs zewnƒôtrznych polece≈Ñ. Demon NSCA mo≈ºe dzia≈Çaƒá jako
+samodzielny demon albo us≈Çuga inetd. KorzystajƒÖc z biblioteki
+libmcrypt mo≈ºna u≈ºywaƒá wybraƒá jeden z wielu algorytm√≥w
 kryptograficznych (DES, 3DES, CAST, xTEA, Twofish, LOKI97, RJINDAEL,
-SERPENT, GOST, SAFER/SAFER+ itp.) do szyfrowania ruchu miÍdzy klientem
-a serwerem. Szyfrowanie jest istotne, jako øe zapobiega wysy≥aniu do
-Nagiosa fa≥szywych wynikÛw testÛw przez nieautoryzowanych
-uøytkownikÛw.
+SERPENT, GOST, SAFER/SAFER+ itp.) do szyfrowania ruchu miƒôdzy klientem
+a serwerem. Szyfrowanie jest istotne, jako ≈ºe zapobiega wysy≈Çaniu do
+Nagiosa fa≈Çszywych wynik√≥w test√≥w przez nieautoryzowanych
+u≈ºytkownik√≥w.
 
 %package client
 Summary:	NSCA client
-Summary(pl):	Klient NSCA
+Summary(pl.UTF-8):   Klient NSCA
 Group:		Networking
 
 %description client
 NSCA client - is used to send service check information from a remote
 machine to the NSCA daemon on the central machine that runs Nagios.
 
-%description client -l pl
-Klient NSCA - uøywany do wysy≥ania wynikÛw testÛw ze zdalnych maszyn
-do centralnej maszyny, na ktÛrej dzia≥a Nagios.
+%description client -l pl.UTF-8
+Klient NSCA - u≈ºywany do wysy≈Çania wynik√≥w test√≥w ze zdalnych maszyn
+do centralnej maszyny, na kt√≥rej dzia≈Ça Nagios.
 
 %prep
 %setup -q -n nsca-%{version}
