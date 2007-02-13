@@ -3,7 +3,7 @@
 %bcond_without	mcrypt	# build without mcrypt support
 #
 Summary:	NSCA daemon for Nagios
-Summary(pl.UTF-8):   Demon NSCA dla Nagiosa
+Summary(pl.UTF-8):	Demon NSCA dla Nagiosa
 Name:		nagios-nsca
 Version:	2.7.1
 Release:	1
@@ -56,7 +56,7 @@ użytkowników.
 
 %package client
 Summary:	NSCA client
-Summary(pl.UTF-8):   Klient NSCA
+Summary(pl.UTF-8):	Klient NSCA
 Group:		Networking
 
 %description client
