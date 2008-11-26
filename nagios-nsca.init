@@ -50,6 +50,16 @@ stop() {
 	fi
 }
 
+condrestart() {
+	if [ -f /var/lock/subsys/nagios-nsca ]; then
+		stop
+		start
+	else
+		msg_not_running "Nagios NSCA daemon"
+		RETVAL=$1
+	fi
+}
+
 RETVAL=0
 # See how we were called.
 case "$1" in
@@ -59,16 +69,22 @@ case "$1" in
   stop)
   	stop
 	;;
-  restart|force-reload)
+  restart)
 	stop
 	start
+	;;
+  try-restart)
+	condrestart 0
+	;;
+  force-reload)
+	condrestart 7
 	;;
   status)
 	status nsca
 	exit $?
 	;;
   *)
-	msg_usage "$0 {start|stop|restart|force-reload|status}"
+	msg_usage "$0 {start|stop|restart|try-restart|force-reload|status}"
 	exit 3
 esac
 
