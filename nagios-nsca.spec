@@ -5,12 +5,12 @@
 Summary:	NSCA daemon for Nagios
 Summary(pl.UTF-8):	Demon NSCA dla Nagiosa
 Name:		nagios-nsca
-Version:	2.7.1
+Version:	2.7.2
 Release:	1
 License:	GPL
 Group:		Networking
 Source0:	http://dl.sourceforge.net/nagios/nsca-%{version}.tar.gz
-# Source0-md5:	823400ebca86df44c6f48b66e1c181d2
+# Source0-md5:	33a98e7975f633a9489d7a8938ed6131
 Source1:	%{name}.init
 Source2:	%{name}.submit
 Patch0:		%{name}-groups.patch
@@ -30,9 +30,9 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 The NSCA addon is designed to accept passive host and service check
-results from clients that use the send_nsca utility (included in client
-subpackage) and pass them along to the Nagios process by using the
-external command interface. The NSCA daemon can either be run as a
+results from clients that use the send_nsca utility (included in
+client subpackage) and pass them along to the Nagios process by using
+the external command interface. The NSCA daemon can either be run as a
 standalone daemon or as a service under inetd. If you have libmcrypt
 installed on your systems, you can choose from multiple crypto
 algorithms (DES, 3DES, CAST, xTEA, Twofish, LOKI97, RJINDAEL, SERPENT,
