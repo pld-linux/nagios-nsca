@@ -27,14 +27,14 @@ elif [ "$#" = 3 ]; then
 	TYPE=HOST
 	CODE=$2
 else
-	echo "You must specify exactly 3 or 4 arguments"
+	echo >&2 "You must specify exactly 3 or 4 arguments"
 	exit 1
 fi
 
-CENTRAL=`cat /etc/nagios/send_nsca-central 2>/dev/null | grep -v '^#'`
+CENTRAL=$(awk '!/#/ { print }' /etc/nagios/send_nsca-central)
 
 if [ -z $CENTRAL ]; then
-	echo "You must specify nagios NSCA host in /etc/nagios/send_nsca-central"
+	echo >&2 "You must specify nagios NSCA host in /etc/nagios/send_nsca-central"
 	exit 1
 fi
 
@@ -74,6 +74,6 @@ if [ "$TYPE" = "SERVICE" ]; then
 elif [ "$TYPE" = "HOST" ]; then
 	echo -e "$1\t$RETURN_CODE\t$3\n" | /usr/sbin/send_nsca $CENTRAL -c /etc/nagios/send_nsca.cfg
 else
-	echo "This cannot happen"
+	echo >&2 "This cannot happen"
 	exit 1
 fi
