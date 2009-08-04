@@ -6,13 +6,14 @@ Summary:	NSCA daemon for Nagios
 Summary(pl.UTF-8):	Demon NSCA dla Nagiosa
 Name:		nagios-nsca
 Version:	2.7.2
-Release:	2
+Release:	3
 License:	GPL
 Group:		Networking
 Source0:	http://dl.sourceforge.net/nagios/nsca-%{version}.tar.gz
 # Source0-md5:	33a98e7975f633a9489d7a8938ed6131
 Source1:	%{name}.init
 Source2:	%{name}.submit
+Source3:	nsca-command.cfg
 Patch0:		%{name}-groups.patch
 Patch1:		%{name}-config.patch
 URL:		http://www.nagios.org/
@@ -80,7 +81,7 @@ do centralnej maszyny, na której działa Nagios.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_sysconfdir},/etc/rc.d/init.d,%{_sbindir}}
+install -d $RPM_BUILD_ROOT{%{_sysconfdir}/plugins,/etc/rc.d/init.d,%{_sbindir}}
 
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/nagios-nsca
 install src/nsca $RPM_BUILD_ROOT%{_sbindir}
@@ -90,7 +91,8 @@ install sample-config/nsca.cfg $RPM_BUILD_ROOT%{_sysconfdir}/nsca.cfg
 install sample-config/send_nsca.cfg $RPM_BUILD_ROOT%{_sysconfdir}/send_nsca.cfg
 
 install %{SOURCE2} $RPM_BUILD_ROOT%{_sbindir}/send_nsca-submit
-echo '# put your central nagios machine name or address here' > \
+install %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/plugins/nsca.cfg
+echo '# Put your central Nagios machine name or address here' > \
 	$RPM_BUILD_ROOT%{_sysconfdir}/send_nsca-central
 
 %clean
@@ -117,4 +119,6 @@ fi
 %defattr(644,root,root,755)
 %attr(640,root,nagios) %config(noreplace) %verify(not group md5 mtime size) %{_sysconfdir}/send_nsca.cfg
 %attr(640,root,nagios) %config(noreplace) %verify(not group md5 mtime size) %{_sysconfdir}/send_nsca-central
-%attr(755,root,root) %{_sbindir}/send_nsca*
+%attr(640,root,nagios) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/plugins/nsca.cfg
+%attr(755,root,root) %{_sbindir}/send_nsca
+%attr(755,root,root) %{_sbindir}/send_nsca-submit
