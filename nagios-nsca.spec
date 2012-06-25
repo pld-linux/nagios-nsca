@@ -1,16 +1,19 @@
+# TODO
+# - do something with using_alternate_dump_file in nagios initscript (warn or dump to pipe on startup)
+# - increase MAX_PLUGINOUTPUT_LENGTH to 8192 like in nagios, but need to patch code to support 4096 and 512 as well
 #
 # Conditional build:
 %bcond_without	mcrypt	# build without mcrypt support
-#
+
 Summary:	NSCA daemon for Nagios
 Summary(pl.UTF-8):	Demon NSCA dla Nagiosa
 Name:		nagios-nsca
-Version:	2.7.2
-Release:	4
+Version:	2.9.1
+Release:	1
 License:	GPL
 Group:		Networking
-Source0:	http://dl.sourceforge.net/nagios/nsca-%{version}.tar.gz
-# Source0-md5:	33a98e7975f633a9489d7a8938ed6131
+Source0:	http://downloads.sourceforge.net/nagios/nsca-%{version}.tar.gz
+# Source0-md5:	3fe2576a8cc5b252110a93f4c8d978c6
 Source1:	%{name}.init
 Source2:	%{name}.submit
 Source3:	nsca-command.cfg
@@ -83,15 +86,15 @@ do centralnej maszyny, na której działa Nagios.
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_sysconfdir}/plugins,/etc/rc.d/init.d,%{_sbindir}}
 
-install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/nagios-nsca
-install src/nsca $RPM_BUILD_ROOT%{_sbindir}
-install src/send_nsca $RPM_BUILD_ROOT%{_sbindir}
+install -p %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/nagios-nsca
+install -p src/nsca $RPM_BUILD_ROOT%{_sbindir}
+install -p src/send_nsca $RPM_BUILD_ROOT%{_sbindir}
 
-install sample-config/nsca.cfg $RPM_BUILD_ROOT%{_sysconfdir}/nsca.cfg
-install sample-config/send_nsca.cfg $RPM_BUILD_ROOT%{_sysconfdir}/send_nsca.cfg
+cp -p sample-config/nsca.cfg $RPM_BUILD_ROOT%{_sysconfdir}/nsca.cfg
+cp -p sample-config/send_nsca.cfg $RPM_BUILD_ROOT%{_sysconfdir}/send_nsca.cfg
 
-install %{SOURCE2} $RPM_BUILD_ROOT%{_sbindir}/send_nsca-submit
-install %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/plugins/nsca.cfg
+install -p %{SOURCE2} $RPM_BUILD_ROOT%{_sbindir}/send_nsca-submit
+cp -p %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/plugins/nsca.cfg
 echo '# Put your central Nagios machine name or address here' > \
 	$RPM_BUILD_ROOT%{_sysconfdir}/send_nsca-central
 
