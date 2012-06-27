@@ -1,6 +1,6 @@
 # TODO
 # - do something with using_alternate_dump_file in nagios initscript (warn or dump to pipe on startup)
-# - increase MAX_PLUGINOUTPUT_LENGTH to 8192 like in nagios, but need to patch code to support 4096 and 512 as well
+# - do we need to support MAX_PLUGINOUTPUT_LENGTH=4096 for compat of unpatched 2.9? current 512 compat is not even working
 #
 # Conditional build:
 %bcond_without	mcrypt	# build without mcrypt support
