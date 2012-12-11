@@ -9,7 +9,7 @@ Summary:	NSCA daemon for Nagios
 Summary(pl.UTF-8):	Demon NSCA dla Nagiosa
 Name:		nagios-nsca
 Version:	2.9.1
-Release:	1.4
+Release:	2
 License:	GPL v2+
 Group:		Networking
 Source0:	http://downloads.sourceforge.net/nagios/nsca-%{version}.tar.gz
@@ -20,6 +20,7 @@ Source3:	nsca-command.cfg
 Patch0:		%{name}-groups.patch
 Patch1:		%{name}-config.patch
 Patch2:		nsca-2.9-fix_open_missing_arg.patch
+Patch3:		missing-respect-debug.patch
 URL:		http://exchange.nagios.org/directory/Addons/Passive-Checks/NSCA--2D-Nagios-Service-Check-Acceptor/details
 BuildRequires:	autoconf
 BuildRequires:	libltdl-devel
@@ -78,6 +79,7 @@ do centralnej maszyny, na której działa Nagios.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 %{__autoconf}
