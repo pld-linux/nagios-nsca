@@ -9,7 +9,7 @@ Summary:	NSCA daemon for Nagios
 Summary(pl.UTF-8):	Demon NSCA dla Nagiosa
 Name:		nagios-nsca
 Version:	2.9.1
-Release:	2
+Release:	3
 License:	GPL v2+
 Group:		Networking
 Source0:	http://downloads.sourceforge.net/nagios/nsca-%{version}.tar.gz
