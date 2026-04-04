@@ -1,11 +1,11 @@
---- nsca-2.6/configure.in~	2006-05-21 22:28:37.583316872 +0300
-+++ nsca-2.6/configure.in	2006-05-21 22:29:10.764059930 +0300
-@@ -90,7 +90,7 @@
- 	AC_DEFINE(HAVE_LIBWRAP)
+--- a/configure.in
++++ b/configure.in
+@@ -104,7 +104,7 @@
+ 	AC_DEFINE(HAVE_LIBWRAP,[1],[Have the TCP wrappers library])
  	])
  AC_SUBST(LIBWRAPLIBS)
 -AC_CHECK_FUNCS(strdup strstr strtoul)
 +AC_CHECK_FUNCS(strdup strstr strtoul initgroups)
  
- dnl socklen_t check - from curl
- AC_CHECK_TYPE([socklen_t], ,[
+ dnl Define sig_atomic_t to int if it's not available.
+ AC_CHECK_TYPE([sig_atomic_t],[],[
